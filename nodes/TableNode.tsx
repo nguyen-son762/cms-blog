@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import type {
   DOMConversionMap,
   DOMConversionOutput,
@@ -213,7 +205,7 @@ export class TableNode extends DecoratorNode<JSX.Element> {
 
   static importDOM(): DOMConversionMap | null {
     return {
-      table: (_node: Node) => ({
+      table: () => ({
         conversion: convertTableElement,
         priority: 0,
       }),

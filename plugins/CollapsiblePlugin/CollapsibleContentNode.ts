@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import {
   DOMConversionMap,
   DOMConversionOutput,
@@ -18,9 +10,7 @@ import {
 
 type SerializedCollapsibleContentNode = SerializedElementNode;
 
-export function convertCollapsibleContentElement(
-  domNode: HTMLElement,
-): DOMConversionOutput | null {
+export function convertCollapsibleContentElement(): DOMConversionOutput | null {
   const node = $createCollapsibleContentNode();
   return {
     node,
@@ -36,13 +26,13 @@ export class CollapsibleContentNode extends ElementNode {
     return new CollapsibleContentNode(node.__key);
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  createDOM(_: EditorConfig): HTMLElement {
     const dom = document.createElement('div');
     dom.classList.add('Collapsible__content');
     return dom;
   }
 
-  updateDOM(prevNode: CollapsibleContentNode, dom: HTMLElement): boolean {
+  updateDOM(_: CollapsibleContentNode, __: HTMLElement): boolean {
     return false;
   }
 
@@ -67,7 +57,7 @@ export class CollapsibleContentNode extends ElementNode {
   }
 
   static importJSON(
-    serializedNode: SerializedCollapsibleContentNode,
+    _: SerializedCollapsibleContentNode,
   ): CollapsibleContentNode {
     return $createCollapsibleContentNode();
   }

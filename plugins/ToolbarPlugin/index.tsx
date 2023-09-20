@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import {
   $createCodeNode,
   $isCodeNode,
@@ -74,11 +66,9 @@ import {
 } from 'lexical';
 import {useCallback, useEffect, useState} from 'react';
 import * as React from 'react';
-const IS_APPLE =true
+import { IS_APPLE } from '@/utils/device';
 
 import useModal from '../../hooks/useModal';
-import catTypingGif from '../../images/cat-typing.gif';
-import {$createStickyNode} from '../../nodes/StickyNode';
 import DropDown, {DropDownItem} from '../../ui/DropDown';
 import DropdownColorPicker from '../../ui/DropdownColorPicker';
 import {getSelectedNode} from '../../utils/getSelectedNode';
@@ -184,7 +174,6 @@ function dropDownActiveClass(active: boolean) {
 function BlockFormatDropDown({
   editor,
   blockType,
-  rootType,
   disabled = false,
 }: {
   blockType: keyof typeof blockTypeToBlockName;
@@ -765,7 +754,7 @@ export default function ToolbarPlugin(): JSX.Element {
         onClick={() => {
           activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        title={IS_APPLE ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
+        title={IS_APPLE() ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
         type="button"
         className="toolbar-item spaced"
         aria-label="Undo">
@@ -776,7 +765,7 @@ export default function ToolbarPlugin(): JSX.Element {
         onClick={() => {
           activeEditor.dispatchCommand(REDO_COMMAND, undefined);
         }}
-        title={IS_APPLE ? 'Redo (⌘Y)' : 'Redo (Ctrl+Y)'}
+        title={IS_APPLE() ? 'Redo (⌘Y)' : 'Redo (Ctrl+Y)'}
         type="button"
         className="toolbar-item"
         aria-label="Redo">
@@ -834,10 +823,10 @@ export default function ToolbarPlugin(): JSX.Element {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
             }}
             className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
-            title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
+            title={IS_APPLE() ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
             type="button"
             aria-label={`Format text as bold. Shortcut: ${
-              IS_APPLE ? '⌘B' : 'Ctrl+B'
+              IS_APPLE() ? '⌘B' : 'Ctrl+B'
             }`}>
             <i className="format bold" />
           </button>
@@ -847,10 +836,10 @@ export default function ToolbarPlugin(): JSX.Element {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
             }}
             className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
-            title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
+            title={IS_APPLE() ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
             type="button"
             aria-label={`Format text as italics. Shortcut: ${
-              IS_APPLE ? '⌘I' : 'Ctrl+I'
+              IS_APPLE() ? '⌘I' : 'Ctrl+I'
             }`}>
             <i className="format italic" />
           </button>
@@ -860,10 +849,10 @@ export default function ToolbarPlugin(): JSX.Element {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
             }}
             className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
-            title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
+            title={IS_APPLE() ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
             type="button"
             aria-label={`Format text to underlined. Shortcut: ${
-              IS_APPLE ? '⌘U' : 'Ctrl+U'
+              IS_APPLE() ? '⌘U' : 'Ctrl+U'
             }`}>
             <i className="format underline" />
           </button>
@@ -1028,17 +1017,6 @@ export default function ToolbarPlugin(): JSX.Element {
               <span className="text">Inline Image</span>
             </DropDownItem>
             <DropDownItem
-              onClick={() =>
-                insertGifOnClick({
-                  altText: 'Cat typing on a laptop',
-                  src: catTypingGif,
-                })
-              }
-              className="item">
-              <i className="icon gif" />
-              <span className="text">GIF</span>
-            </DropDownItem>
-            <DropDownItem
               onClick={() => {
                 activeEditor.dispatchCommand(
                   INSERT_EXCALIDRAW_COMMAND,
@@ -1114,18 +1092,6 @@ export default function ToolbarPlugin(): JSX.Element {
               className="item">
               <i className="icon equation" />
               <span className="text">Equation</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                editor.update(() => {
-                  const root = $getRoot();
-                  const stickyNode = $createStickyNode(0, 0);
-                  root.append(stickyNode);
-                });
-              }}
-              className="item">
-              <i className="icon sticky" />
-              <span className="text">Sticky Note</span>
             </DropDownItem>
             <DropDownItem
               onClick={() => {

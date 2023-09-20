@@ -123,7 +123,7 @@ export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
     self.__data = data;
   }
 
-  decorate(editor: LexicalEditor, config: EditorConfig): JSX.Element {
+  decorate(): JSX.Element {
     return (
       <Suspense fallback={null}>
         <ExcalidrawComponent nodeKey={this.getKey()} data={this.__data} />

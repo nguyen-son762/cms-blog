@@ -5,19 +5,14 @@ import {$createListItemNode, $createListNode} from '@lexical/list';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
 import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
-import * as React from 'react';
+import {useState, useEffect} from 'react';
 
-import {isDevPlayground} from '@/appSettings';
 import {SettingsContext, useSettings} from '@/context/SettingsContext';
 import {SharedAutocompleteContext} from '@/context/SharedAutocompleteContext';
 import {SharedHistoryContext} from '@/context/SharedHistoryContext';
 import Editor from '@/components/editor/Editor';
-import logo from '@/images/logo.svg';
 import PlaygroundNodes from '@/nodes/PlaygroundNodes';
-import DocsPlugin from '@/plugins/DocsPlugin';
-import PasteLogPlugin from '@/plugins/PasteLogPlugin';
 import {TableContext} from '@/plugins/TablePlugin';
-import TestRecorderPlugin from '@/plugins/TestRecorderPlugin';
 import TypingPerfPlugin from '@/plugins/TypingPerfPlugin';
 import PlaygroundEditorTheme from '@/themes/PlaygroundEditorTheme';
 
@@ -129,13 +124,9 @@ function App(): JSX.Element {
       <SharedHistoryContext>
         <TableContext>
           <SharedAutocompleteContext>
-            <div className="editor-shell">
+            <div className="editor-shell container mx-auto">
               <Editor />
             </div>
-            {isDevPlayground ? <DocsPlugin /> : null}
-            {isDevPlayground ? <PasteLogPlugin /> : null}
-            {isDevPlayground ? <TestRecorderPlugin /> : null}
-
             {measureTypingPerf ? <TypingPerfPlugin /> : null}
           </SharedAutocompleteContext>
         </TableContext>
@@ -144,7 +135,14 @@ function App(): JSX.Element {
   );
 }
 
-export default function PlaygroundApp(): JSX.Element {
+export default function PlaygroundApp() {
+  const [isMounted, setIsMounted] = useState(false)
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+  if(!isMounted){
+    return null
+  }
   return (
     <SettingsContext>
       <App />

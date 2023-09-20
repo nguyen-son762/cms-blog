@@ -1,18 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import type {
   DOMConversionMap,
   DOMConversionOutput,
@@ -122,7 +107,7 @@ export class InlineImageNode extends DecoratorNode<JSX.Element> {
 
   static importDOM(): DOMConversionMap | null {
     return {
-      img: (node: Node) => ({
+      img: () => ({
         conversion: convertInlineImageElement,
         priority: 0,
       }),

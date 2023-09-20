@@ -57,7 +57,7 @@ import {
 } from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
-const IS_APPLE = true
+import { IS_APPLE } from '@/utils/device';
 
 import {CellContext} from '../plugins/TablePlugin';
 import {
@@ -129,7 +129,7 @@ function isCopy(
     return false;
   }
   if (keyCode === 67) {
-    return IS_APPLE ? metaKey : ctrlKey;
+    return IS_APPLE() ? metaKey : ctrlKey;
   }
 
   return false;
@@ -145,7 +145,7 @@ function isCut(
     return false;
   }
   if (keyCode === 88) {
-    return IS_APPLE ? metaKey : ctrlKey;
+    return IS_APPLE() ? metaKey : ctrlKey;
   }
 
   return false;
@@ -161,7 +161,7 @@ function isPaste(
     return false;
   }
   if (keyCode === 86) {
-    return IS_APPLE ? metaKey : ctrlKey;
+    return IS_APPLE() ? metaKey : ctrlKey;
   }
 
   return false;
@@ -1405,7 +1405,7 @@ export default function TableComponent({
     return mergeRegister(
       editor.registerCommand(
         CLICK_COMMAND,
-        (payload) => {
+        () => {
           const selection = $getSelection();
           if ($isNodeSelection(selection)) {
             return true;

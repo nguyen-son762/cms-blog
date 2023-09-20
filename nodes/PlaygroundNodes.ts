@@ -34,7 +34,6 @@ import {LayoutItemNode} from './LayoutItemNode';
 import {MentionNode} from './MentionNode';
 import {PageBreakNode} from './PageBreakNode';
 import {PollNode} from './PollNode';
-import {StickyNode} from './StickyNode';
 import {TableNode as NewTableNode} from './TableNode';
 import {TweetNode} from './TweetNode';
 import {YouTubeNode} from './YouTubeNode';
@@ -55,7 +54,6 @@ const PlaygroundNodes: Array<Klass<LexicalNode>> = [
   LinkNode,
   OverflowNode,
   PollNode,
-  StickyNode,
   ImageNode,
   InlineImageNode,
   MentionNode,

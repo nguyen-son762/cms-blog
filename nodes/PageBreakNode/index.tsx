@@ -1,10 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import './index.css';
 
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
@@ -102,7 +95,7 @@ export class PageBreakNode extends DecoratorNode<JSX.Element> {
     return new PageBreakNode(node.__key);
   }
 
-  static importJSON(serializedNode: SerializedPageBreakNode): PageBreakNode {
+  static importJSON(): PageBreakNode {
     return $createPageBreakNode();
   }
 

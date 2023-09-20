@@ -106,18 +106,18 @@ export default function ContextMenuPlugin(): JSX.Element {
   const options = useMemo(() => {
     return [
       new ContextMenuOption(`Copy`, {
-        onSelect: (_node) => {
+        onSelect: () => {
           editor.dispatchCommand(COPY_COMMAND, null);
         },
       }),
       new ContextMenuOption(`Cut`, {
-        onSelect: (_node) => {
+        onSelect: () => {
           editor.dispatchCommand(CUT_COMMAND, null);
         },
       }),
       new ContextMenuOption(`Paste`, {
-        onSelect: (_node) => {
-          navigator.clipboard.read().then(async (...args) => {
+        onSelect: () => {
+          navigator.clipboard.read().then(async () => {
             const data = new DataTransfer();
 
             const items = await navigator.clipboard.read();
@@ -146,8 +146,8 @@ export default function ContextMenuPlugin(): JSX.Element {
         },
       }),
       new ContextMenuOption(`Paste as Plain Text`, {
-        onSelect: (_node) => {
-          navigator.clipboard.read().then(async (...args) => {
+        onSelect: () => {
+          navigator.clipboard.read().then(async () => {
             const permission = await navigator.permissions.query({
               // @ts-ignore These types are incorrect.
               name: 'clipboard-read',
@@ -170,7 +170,7 @@ export default function ContextMenuPlugin(): JSX.Element {
         },
       }),
       new ContextMenuOption(`Delete Node`, {
-        onSelect: (_node) => {
+        onSelect: () => {
           const selection = $getSelection();
           if ($isRangeSelection(selection)) {
             const currentNode = selection.anchor.getNode();

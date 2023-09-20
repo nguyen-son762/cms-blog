@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "yarn eslint . && yarn prettier --write ."
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.16.0",
@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@types/invariant": "^2.2.35",
+    "@types/katex": "^0.16.3",
     "@types/lodash-es": "^4.17.9",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "eslint-config-prettier": "^9.0.0",

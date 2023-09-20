@@ -24,10 +24,10 @@ type ContextShape = [SubscribeFn, PublishFn];
 type HookShape = [suggestion: Suggestion, setSuggestion: PublishFn];
 
 const Context: React.Context<ContextShape> = createContext([
-  (_cb) => () => {
+  (_) => () => {
     return;
   },
-  (_newSuggestion: Suggestion) => {
+  (_: Suggestion) => {
     return;
   },
 ]);
@@ -50,7 +50,7 @@ export const SharedAutocompleteContext = ({
       },
       (newSuggestion: Suggestion) => {
         suggestion = newSuggestion;
-        for (const listener of (listeners as any)) {
+        for (const listener of listeners) {
           listener(newSuggestion);
         }
       },
