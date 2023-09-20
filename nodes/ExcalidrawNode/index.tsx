@@ -16,51 +16,51 @@ import type {
   NodeKey,
   SerializedLexicalNode,
   Spread,
-} from 'lexical';
+} from 'lexical'
 
-import {DecoratorNode} from 'lexical';
-import * as React from 'react';
-import {Suspense} from 'react';
+import { DecoratorNode } from 'lexical'
+import * as React from 'react'
+import { Suspense } from 'react'
 
 const ExcalidrawComponent = React.lazy(
   // @ts-ignore
-  () => import('./ExcalidrawComponent'),
-);
+  () => import('./ExcalidrawComponent')
+)
 
 export type SerializedExcalidrawNode = Spread<
   {
-    data: string;
+    data: string
   },
   SerializedLexicalNode
->;
+>
 
 function convertExcalidrawElement(
-  domNode: HTMLElement,
+  domNode: HTMLElement
 ): DOMConversionOutput | null {
-  const excalidrawData = domNode.getAttribute('data-lexical-excalidraw-json');
+  const excalidrawData = domNode.getAttribute('data-lexical-excalidraw-json')
   if (excalidrawData) {
-    const node = $createExcalidrawNode();
-    node.__data = excalidrawData;
+    const node = $createExcalidrawNode()
+    node.__data = excalidrawData
     return {
       node,
-    };
+    }
   }
-  return null;
+  return null
 }
 
 export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
-  __data: string;
+  __data: string
 
   static getType(): string {
-    return 'excalidraw';
+    return 'excalidraw'
   }
 
   static clone(node: ExcalidrawNode): ExcalidrawNode {
-    return new ExcalidrawNode(node.__data, node.__key);
+    return new ExcalidrawNode(node.__data, node.__key)
   }
 
   static importJSON(serializedNode: SerializedExcalidrawNode): ExcalidrawNode {
-    return new ExcalidrawNode(serializedNode.data);
+    return new ExcalidrawNode(serializedNode.data)
   }
 
   exportJSON(): SerializedExcalidrawNode {
@@ -68,59 +68,59 @@ export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
       data: this.__data,
       type: 'excalidraw',
       version: 1,
-    };
+    }
   }
 
   constructor(data = '[]', key?: NodeKey) {
-    super(key);
-    this.__data = data;
+    super(key)
+    this.__data = data
   }
 
   // View
   createDOM(config: EditorConfig): HTMLElement {
-    const span = document.createElement('span');
-    const theme = config.theme;
-    const className = theme.image;
+    const span = document.createElement('span')
+    const theme = config.theme
+    const className = theme.image
     if (className !== undefined) {
-      span.className = className;
+      span.className = className
     }
-    return span;
+    return span
   }
 
   updateDOM(): false {
-    return false;
+    return false
   }
 
   static importDOM(): DOMConversionMap<HTMLSpanElement> | null {
     return {
       span: (domNode: HTMLSpanElement) => {
         if (!domNode.hasAttribute('data-lexical-excalidraw-json')) {
-          return null;
+          return null
         }
         return {
           conversion: convertExcalidrawElement,
           priority: 1,
-        };
+        }
       },
-    };
+    }
   }
 
   exportDOM(editor: LexicalEditor): DOMExportOutput {
-    const element = document.createElement('span');
-    const content = editor.getElementByKey(this.getKey());
+    const element = document.createElement('span')
+    const content = editor.getElementByKey(this.getKey())
     if (content !== null) {
-      const svg = content.querySelector('svg');
+      const svg = content.querySelector('svg')
       if (svg !== null) {
-        element.innerHTML = svg.outerHTML;
+        element.innerHTML = svg.outerHTML
       }
     }
-    element.setAttribute('data-lexical-excalidraw-json', this.__data);
-    return {element};
+    element.setAttribute('data-lexical-excalidraw-json', this.__data)
+    return { element }
   }
 
   setData(data: string): void {
-    const self = this.getWritable();
-    self.__data = data;
+    const self = this.getWritable()
+    self.__data = data
   }
 
   decorate(): JSX.Element {
@@ -128,16 +128,16 @@ export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
       <Suspense fallback={null}>
         <ExcalidrawComponent nodeKey={this.getKey()} data={this.__data} />
       </Suspense>
-    );
+    )
   }
 }
 
 export function $createExcalidrawNode(): ExcalidrawNode {
-  return new ExcalidrawNode();
+  return new ExcalidrawNode()
 }
 
 export function $isExcalidrawNode(
-  node: LexicalNode | null,
+  node: LexicalNode | null
 ): node is ExcalidrawNode {
-  return node instanceof ExcalidrawNode;
+  return node instanceof ExcalidrawNode
 }

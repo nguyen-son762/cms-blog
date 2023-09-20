@@ -21,11 +21,11 @@ export type SettingName =
   | 'emptyEditor'
   | 'showTableOfContents'
   | 'tableCellMerge'
-  | 'tableCellBackgroundColor';
+  | 'tableCellBackgroundColor'
 
-export type Settings = Record<SettingName, boolean>;
+export type Settings = Record<SettingName, boolean>
 
-export const isDevPlayground= true
+export const isDevPlayground = true
 
 export const DEFAULT_SETTINGS: Settings = {
   disableBeforeInput: false,
@@ -43,4 +43,4 @@ export const DEFAULT_SETTINGS: Settings = {
   showTreeView: false,
   tableCellBackgroundColor: true,
   tableCellMerge: true,
-};
+}

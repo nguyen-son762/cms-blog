@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$wrapNodeInElement} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { $wrapNodeInElement } from '@lexical/utils'
 import {
   $createParagraphNode,
   $insertNodes,
@@ -14,42 +14,42 @@ import {
   COMMAND_PRIORITY_EDITOR,
   createCommand,
   LexicalCommand,
-} from 'lexical';
-import {useEffect} from 'react';
+} from 'lexical'
+import { useEffect } from 'react'
 
 import {
   $createExcalidrawNode,
   ExcalidrawNode,
-} from '../../nodes/ExcalidrawNode';
+} from '../../nodes/ExcalidrawNode'
 
 export const INSERT_EXCALIDRAW_COMMAND: LexicalCommand<void> = createCommand(
-  'INSERT_EXCALIDRAW_COMMAND',
-);
+  'INSERT_EXCALIDRAW_COMMAND'
+)
 
 export default function ExcalidrawPlugin(): null {
-  const [editor] = useLexicalComposerContext();
+  const [editor] = useLexicalComposerContext()
   useEffect(() => {
     if (!editor.hasNodes([ExcalidrawNode])) {
       throw new Error(
-        'ExcalidrawPlugin: ExcalidrawNode not registered on editor',
-      );
+        'ExcalidrawPlugin: ExcalidrawNode not registered on editor'
+      )
     }
 
     return editor.registerCommand(
       INSERT_EXCALIDRAW_COMMAND,
       () => {
-        const excalidrawNode = $createExcalidrawNode();
+        const excalidrawNode = $createExcalidrawNode()
 
-        $insertNodes([excalidrawNode]);
+        $insertNodes([excalidrawNode])
         if ($isRootOrShadowRoot(excalidrawNode.getParentOrThrow())) {
-          $wrapNodeInElement(excalidrawNode, $createParagraphNode).selectEnd();
+          $wrapNodeInElement(excalidrawNode, $createParagraphNode).selectEnd()
         }
 
-        return true;
+        return true
       },
-      COMMAND_PRIORITY_EDITOR,
-    );
-  }, [editor]);
+      COMMAND_PRIORITY_EDITOR
+    )
+  }, [editor])
 
-  return null;
+  return null
 }

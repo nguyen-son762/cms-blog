@@ -6,9 +6,9 @@
  *
  */
 
-import type {EditorThemeClasses} from 'lexical';
+import type { EditorThemeClasses } from 'lexical'
 
-import './PlaygroundEditorTheme.css';
+import './PlaygroundEditorTheme.css'
 
 const theme: EditorThemeClasses = {
   blockCursor: 'PlaygroundEditorTheme__blockCursor',
@@ -113,6 +113,6 @@ const theme: EditorThemeClasses = {
     underline: 'PlaygroundEditorTheme__textUnderline',
     underlineStrikethrough: 'PlaygroundEditorTheme__textUnderlineStrikethrough',
   },
-};
+}
 
-export default theme;
+export default theme

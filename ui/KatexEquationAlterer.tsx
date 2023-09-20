@@ -6,36 +6,36 @@
  *
  */
 
-import './KatexEquationAlterer.css';
+import './KatexEquationAlterer.css'
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import * as React from 'react';
-import {useCallback, useState} from 'react';
-import {ErrorBoundary} from 'react-error-boundary';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import * as React from 'react'
+import { useCallback, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 
-import Button from '../ui/Button';
-import KatexRenderer from './KatexRenderer';
+import Button from '../ui/Button'
+import KatexRenderer from './KatexRenderer'
 
 type Props = {
-  initialEquation?: string;
-  onConfirm: (equation: string, inline: boolean) => void;
-};
+  initialEquation?: string
+  onConfirm: (equation: string, inline: boolean) => void
+}
 
 export default function KatexEquationAlterer({
   onConfirm,
   initialEquation = '',
 }: Props): JSX.Element {
-  const [editor] = useLexicalComposerContext();
-  const [equation, setEquation] = useState<string>(initialEquation);
-  const [inline, setInline] = useState<boolean>(true);
+  const [editor] = useLexicalComposerContext()
+  const [equation, setEquation] = useState<string>(initialEquation)
+  const [inline, setInline] = useState<boolean>(true)
 
   const onClick = useCallback(() => {
-    onConfirm(equation, inline);
-  }, [onConfirm, equation, inline]);
+    onConfirm(equation, inline)
+  }, [onConfirm, equation, inline])
 
   const onCheckboxChange = useCallback(() => {
-    setInline(!inline);
-  }, [setInline, inline]);
+    setInline(!inline)
+  }, [setInline, inline])
 
   return (
     <>
@@ -48,7 +48,7 @@ export default function KatexEquationAlterer({
         {inline ? (
           <input
             onChange={(event) => {
-              setEquation(event.target.value);
+              setEquation(event.target.value)
             }}
             value={equation}
             className="KatexEquationAlterer_textArea"
@@ -56,7 +56,7 @@ export default function KatexEquationAlterer({
         ) : (
           <textarea
             onChange={(event) => {
-              setEquation(event.target.value);
+              setEquation(event.target.value)
             }}
             value={equation}
             className="KatexEquationAlterer_textArea"
@@ -77,5 +77,5 @@ export default function KatexEquationAlterer({
         <Button onClick={onClick}>Confirm</Button>
       </div>
     </>
-  );
+  )
 }

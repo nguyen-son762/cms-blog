@@ -11,44 +11,44 @@ import type {
   EditorConfig,
   LexicalNode,
   SerializedElementNode,
-} from 'lexical';
+} from 'lexical'
 
-import {addClassNamesToElement} from '@lexical/utils';
-import {ElementNode} from 'lexical';
+import { addClassNamesToElement } from '@lexical/utils'
+import { ElementNode } from 'lexical'
 
-export type SerializedLayoutItemNode = SerializedElementNode;
+export type SerializedLayoutItemNode = SerializedElementNode
 
 export class LayoutItemNode extends ElementNode {
   static getType(): string {
-    return 'layout-item';
+    return 'layout-item'
   }
 
   static clone(node: LayoutItemNode): LayoutItemNode {
-    return new LayoutItemNode(node.__key);
+    return new LayoutItemNode(node.__key)
   }
 
   createDOM(config: EditorConfig): HTMLElement {
-    const dom = document.createElement('div');
+    const dom = document.createElement('div')
     if (typeof config.theme.layoutItem === 'string') {
-      addClassNamesToElement(dom, config.theme.layoutItem);
+      addClassNamesToElement(dom, config.theme.layoutItem)
     }
-    return dom;
+    return dom
   }
 
   updateDOM(): boolean {
-    return false;
+    return false
   }
 
   static importDOM(): DOMConversionMap | null {
-    return {};
+    return {}
   }
 
   static importJSON(): LayoutItemNode {
-    return $createLayoutItemNode();
+    return $createLayoutItemNode()
   }
 
   isShadowRoot(): boolean {
-    return true;
+    return true
   }
 
   exportJSON(): SerializedLayoutItemNode {
@@ -56,16 +56,16 @@ export class LayoutItemNode extends ElementNode {
       ...super.exportJSON(),
       type: 'layout-item',
       version: 1,
-    };
+    }
   }
 }
 
 export function $createLayoutItemNode(): LayoutItemNode {
-  return new LayoutItemNode();
+  return new LayoutItemNode()
 }
 
 export function $isLayoutItemNode(
-  node: LexicalNode | null | undefined,
+  node: LexicalNode | null | undefined
 ): node is LayoutItemNode {
-  return node instanceof LayoutItemNode;
+  return node instanceof LayoutItemNode
 }
