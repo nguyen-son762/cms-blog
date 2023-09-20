@@ -1,9 +1,9 @@
-import Test from '@/components/EditorPlayground'
+import EditorPlayground from '@/components/EditorPlayground'
 
 export default function Home() {
   return (
    <main>
-    <Test />
+    <EditorPlayground />
    </main>
   )
 }

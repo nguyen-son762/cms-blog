@@ -5,6 +5,7 @@ import {CharacterLimitPlugin} from '@lexical/react/LexicalCharacterLimitPlugin';
 import {CheckListPlugin} from '@lexical/react/LexicalCheckListPlugin';
 import {ClearEditorPlugin} from '@lexical/react/LexicalClearEditorPlugin';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
+import {CollaborationPlugin} from '@lexical/react/LexicalCollaborationPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import {HashtagPlugin} from '@lexical/react/LexicalHashtagPlugin';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
@@ -18,6 +19,7 @@ import useLexicalEditable from '@lexical/react/useLexicalEditable';
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 
+import {createWebsocketProvider} from '../../collaboration';
 import {useSettings} from '../../context/SettingsContext';
 import {useSharedHistoryContext} from '../../context/SharedHistoryContext';
 import TableCellNodes from '../../nodes/TableCellNodes';
@@ -50,17 +52,23 @@ import {MaxLengthPlugin} from '../../plugins/MaxLengthPlugin';
 import MentionsPlugin from '../../plugins/MentionsPlugin';
 import PageBreakPlugin from '../../plugins/PageBreakPlugin';
 import PollPlugin from '../../plugins/PollPlugin';
+import SpeechToTextPlugin from '../../plugins/SpeechToTextPlugin';
 import TabFocusPlugin from '../../plugins/TabFocusPlugin';
 import TableCellActionMenuPlugin from '../../plugins/TableActionMenuPlugin';
 import TableCellResizer from '../../plugins/TableCellResizer';
 import TableOfContentsPlugin from '../../plugins/TableOfContentsPlugin';
 import {TablePlugin as NewTablePlugin} from '../../plugins/TablePlugin';
 import ToolbarPlugin from '../../plugins/ToolbarPlugin';
+import TreeViewPlugin from '../../plugins/TreeViewPlugin';
 import TwitterPlugin from '../../plugins/TwitterPlugin';
 import YouTubePlugin from '../../plugins/YouTubePlugin';
+import PlaygroundEditorTheme from '../../themes/PlaygroundEditorTheme';
 import ContentEditable from '../../ui/ContentEditable';
 import Placeholder from '../../ui/Placeholder';
-import PlaygroundEditorTheme from '../../themes/PlaygroundEditorTheme';
+
+const skipCollaborationInit =
+  // @ts-ignore
+  window.parent != null && window.parent.frames.right === window;
 
 export default function Editor(): JSX.Element {
   const {historyState} = useSharedHistoryContext();
@@ -108,7 +116,7 @@ export default function Editor(): JSX.Element {
 
   useEffect(() => {
     const updateViewPortWidth = () => {
-      const isNextSmallWidthViewport =window.matchMedia('(max-width: 1025px)').matches;
+      const isNextSmallWidthViewport =window.matchMedia('(max-width: 1025px)')?.matches;
 
       if (isNextSmallWidthViewport !== isSmallWidthViewport) {
         setIsSmallWidthViewport(isNextSmallWidthViewport);
@@ -141,10 +149,19 @@ export default function Editor(): JSX.Element {
         <EmojisPlugin />
         <HashtagPlugin />
         <KeywordsPlugin />
+        <SpeechToTextPlugin />
         <AutoLinkPlugin />
         {isRichText ? (
           <>
-            <HistoryPlugin externalHistoryState={historyState} />
+            {isCollab ? (
+              <CollaborationPlugin
+                id="main"
+                providerFactory={createWebsocketProvider}
+                shouldBootstrap={!skipCollaborationInit}
+              />
+            ) : (
+              <HistoryPlugin externalHistoryState={historyState} />
+            )}
             <RichTextPlugin
               contentEditable={
                 <div className="editor-scroller">
@@ -234,6 +251,7 @@ export default function Editor(): JSX.Element {
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
         <ActionsPlugin isRichText={isRichText} />
       </div>
+      {showTreeView && <TreeViewPlugin />}
     </>
   );
 }

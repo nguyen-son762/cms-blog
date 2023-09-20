@@ -9,6 +9,7 @@
 .PlaygroundEditorTheme__ltr {
   text-align: left;
 }
+
 .PlaygroundEditorTheme__rtl {
   text-align: right;
 }
@@ -316,6 +317,7 @@
 .PlaygroundEditorTheme__listItem {
   margin: 0 32px;
 }
+
 .PlaygroundEditorTheme__listItemChecked,
 .PlaygroundEditorTheme__listItemUnchecked {
   position: relative;
