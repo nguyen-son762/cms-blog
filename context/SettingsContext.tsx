@@ -1,4 +1,4 @@
-import type { SettingName } from '../appSettings'
+import type { SettingName } from '../constants/appSettings'
 
 import {
   createContext,
@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 
-import { DEFAULT_SETTINGS } from '../appSettings'
+import { DEFAULT_SETTINGS } from '../constants/appSettings'
 
 type SettingsContextShape = {
   setOption: (name: SettingName, value: boolean) => void

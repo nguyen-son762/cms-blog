@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import { $createCodeNode } from '@lexical/code'
 import {
   INSERT_CHECK_LIST_COMMAND,
@@ -35,12 +27,10 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import useModal from '../../hooks/useModal'
-import catTypingGif from '../../images/cat-typing.gif'
 import { EmbedConfigs } from '../AutoEmbedPlugin'
-import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin'
 import { InsertEquationDialog } from '../EquationsPlugin'
 import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin'
-import { INSERT_IMAGE_COMMAND, InsertImageDialog } from '../ImagesPlugin'
+import { InsertImageDialog } from '../ImagesPlugin'
 import { INSERT_PAGE_BREAK } from '../PageBreakPlugin'
 import { InsertPollDialog } from '../PollPlugin'
 import { InsertNewTableDialog, InsertTableDialog } from '../TablePlugin'
@@ -303,15 +293,6 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
             <InsertEquationDialog activeEditor={editor} onClose={onClose} />
           )),
       }),
-      new ComponentPickerOption('GIF', {
-        icon: <i className="icon gif" />,
-        keywords: ['gif', 'animate', 'image', 'file'],
-        onSelect: () =>
-          editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-            altText: 'Cat typing on a laptop',
-            src: catTypingGif,
-          }),
-      }),
       new ComponentPickerOption('Image', {
         icon: <i className="icon image" />,
         keywords: ['image', 'photo', 'picture', 'file'],
@@ -319,12 +300,6 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
           showModal('Insert Image', (onClose) => (
             <InsertImageDialog activeEditor={editor} onClose={onClose} />
           )),
-      }),
-      new ComponentPickerOption('Collapsible', {
-        icon: <i className="icon caret-right" />,
-        keywords: ['collapse', 'collapsible', 'toggle'],
-        onSelect: () =>
-          editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined),
       }),
       ...['left', 'center', 'right', 'justify'].map(
         (alignment) =>
