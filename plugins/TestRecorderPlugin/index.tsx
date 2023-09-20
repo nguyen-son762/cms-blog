@@ -16,8 +16,8 @@ import type {
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
 import * as React from 'react';
-import {useCallback, useEffect, useRef, useState,useLayoutEffect} from 'react';
-const IS_APPLE = true
+import {useCallback, useEffect, useRef, useState, useLayoutEffect} from 'react';
+const IS_APPLE = false
 
 const copy = (text: string | null) => {
   const textArea = document.createElement('textarea');
@@ -253,7 +253,7 @@ ${steps.map(formatStep).join(`\n`)}
       if (!isRecording) {
         return;
       }
-      const key = event.key as any;
+      const key = event.key;
       if (isSelectAll(event)) {
         pushStep('selectAll', '');
       } else if (keyPresses.has(key)) {
@@ -269,7 +269,7 @@ ${steps.map(formatStep).join(`\n`)}
       if (!isRecording) {
         return;
       }
-      const key = event.key as any;
+      const key = event.key;
       if (!keyPresses.has(key) && [...key].length > 1) {
         pushStep('keyup', event.key);
       }

@@ -27,6 +27,7 @@ import {
 } from 'lexical';
 import {useEffect, useRef, useState} from 'react';
 import * as React from 'react';
+const CAN_USE_DOM = true
 
 import landscapeImage from '../../images/landscape.jpg';
 import yellowFlowerImage from '../../images/yellow-flower.jpg';
@@ -43,7 +44,8 @@ import TextInput from '../../ui/TextInput';
 
 export type InsertImagePayload = Readonly<ImagePayload>;
 
-const getDOMSelection = (targetWindow: Window | null): Selection | null =>(targetWindow || window).getSelection() || null;
+const getDOMSelection = (targetWindow: Window | null): Selection | null =>
+  CAN_USE_DOM ? (targetWindow || window).getSelection() : null;
 
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
   createCommand('INSERT_IMAGE_COMMAND');
@@ -167,6 +169,24 @@ export function InsertImageDialog({
       {!mode && (
         <DialogButtonsList>
           <Button
+            data-test-id="image-modal-option-sample"
+            onClick={() =>
+              onClick(
+                hasModifier.current
+                  ? {
+                      altText:
+                        'Daylight fir trees forest glacier green high ice landscape',
+                      src: landscapeImage,
+                    }
+                  : {
+                      altText: 'Yellow flower in tilt shift lens',
+                      src: yellowFlowerImage,
+                    },
+              )
+            }>
+            Sample
+          </Button>
+          <Button
             data-test-id="image-modal-option-url"
             onClick={() => setMode('url')}>
             URL
@@ -237,12 +257,12 @@ export default function ImagesPlugin({
   return null;
 }
 
+const TRANSPARENT_IMAGE =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const img = document.createElement('img');
+img.src = TRANSPARENT_IMAGE;
 
 function onDragStart(event: DragEvent): boolean {
-  const TRANSPARENT_IMAGE =
-    'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-  const img = document.createElement('img');
-  img.src = TRANSPARENT_IMAGE;
   const node = getImageNodeInSelection();
   if (!node) {
     return false;

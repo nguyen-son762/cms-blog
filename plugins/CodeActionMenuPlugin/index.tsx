@@ -21,6 +21,7 @@ import * as React from 'react';
 import {createPortal} from 'react-dom';
 
 import {CopyButton} from './components/CopyButton';
+import {canBePrettier, PrettierButton} from './components/PrettierButton';
 import {useDebounce} from './utils';
 
 const CODE_PADDING = 8;
@@ -108,7 +109,7 @@ function CodeActionMenuContainer({
     };
   }, [shouldListenMouseMove, debouncedOnMouseMove]);
 
-  editor.registerMutationListener(CodeNode, (mutations: any) => {
+  editor.registerMutationListener(CodeNode, (mutations) => {
     editor.getEditorState().read(() => {
       for (const [key, type] of mutations) {
         switch (type) {
@@ -137,6 +138,13 @@ function CodeActionMenuContainer({
         <div className="code-action-menu-container" style={{...position}}>
           <div className="code-highlight-language">{codeFriendlyName}</div>
           <CopyButton editor={editor} getCodeDOMNode={getCodeDOMNode} />
+          {canBePrettier(normalizedLang) ? (
+            <PrettierButton
+              editor={editor}
+              getCodeDOMNode={getCodeDOMNode}
+              lang={normalizedLang}
+            />
+          ) : null}
         </div>
       ) : null}
     </>

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import type {Position} from '../../nodes/InlineImageNode';
 
 import '../../ui/Checkbox.css';
@@ -24,6 +31,7 @@ import {
 } from 'lexical';
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
+const CAN_USE_DOM = true
 
 import {
   $createInlineImageNode,
@@ -39,7 +47,8 @@ import TextInput from '../../ui/TextInput';
 
 export type InsertInlineImagePayload = Readonly<InlineImagePayload>;
 
-const getDOMSelection = (targetWindow: Window | null): Selection | null =>(targetWindow || window).getSelection() || null
+const getDOMSelection = (targetWindow: Window | null): Selection | null =>
+  CAN_USE_DOM ? (targetWindow || window).getSelection() : null;
 
 export const INSERT_INLINE_IMAGE_COMMAND: LexicalCommand<InlineImagePayload> =
   createCommand('INSERT_INLINE_IMAGE_COMMAND');
@@ -200,11 +209,12 @@ export default function InlineImagePlugin(): JSX.Element | null {
   return null;
 }
 
-function onDragStart(event: DragEvent): boolean {
-  const TRANSPARENT_IMAGE =
+const TRANSPARENT_IMAGE =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 const img = document.createElement('img');
 img.src = TRANSPARENT_IMAGE;
+
+function onDragStart(event: DragEvent): boolean {
   const node = getImageNodeInSelection();
   if (!node) {
     return false;

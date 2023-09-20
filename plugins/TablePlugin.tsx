@@ -20,6 +20,7 @@ import {
 } from 'lexical';
 import {createContext, useContext, useEffect, useMemo, useState} from 'react';
 import * as React from 'react';
+import invariant from 'invariant';
 
 import {$createTableNodeWithDimensions, TableNode} from '../nodes/TableNode';
 import Button from '../ui/Button';
@@ -206,6 +207,10 @@ export function TablePlugin({
   const cellContext = useContext(CellContext);
 
   useEffect(() => {
+    if (!editor.hasNodes([TableNode])) {
+      invariant(false, 'TablePlugin: TableNode is not registered on editor');
+    }
+
     cellContext.set(cellEditorConfig, children);
 
     return editor.registerCommand<InsertTableCommandPayload>(
