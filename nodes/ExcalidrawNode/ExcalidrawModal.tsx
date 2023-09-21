@@ -233,7 +233,7 @@ export default function ExcalidrawModal({
             ref={excaliDrawSceneRef}
             initialData={{
               appState: initialAppState || { isLoading: false },
-              elements: initialElements,
+              elements: initialElements as any,
               files: initialFiles,
             }}
           />

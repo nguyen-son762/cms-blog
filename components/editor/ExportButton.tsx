@@ -10,7 +10,7 @@ const ExportButton = () => {
   const [editor] = useLexicalComposerContext()
   useEffect(() => {
     setIsMounted(true)
-  })
+  },[])
   if (!isMounted) {
     return null
   }
