@@ -30,7 +30,13 @@ type ComboboxProps = {
   onChange: (value: string | number) => void
   canSearch?: boolean
   placeholder: string
-  width?: string
+  size?: "small" | "medium" | "large"
+}
+
+export const widthSize = {
+  small : 160,
+  medium: 200,
+  large: 250
 }
 
 export const Combobox: FC<ComboboxProps> = ({
@@ -39,7 +45,7 @@ export const Combobox: FC<ComboboxProps> = ({
   onChange,
   canSearch = false,
   placeholder,
-  width = 200,
+  size = 'small'
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -50,7 +56,10 @@ export const Combobox: FC<ComboboxProps> = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-[${width}px] justify-between`}
+          className={`justify-between`}
+          style={{
+            width: widthSize[size]
+          }}
         >
           {value
             ? items.find((item) => item.value === value)?.label
@@ -58,7 +67,9 @@ export const Combobox: FC<ComboboxProps> = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={`w-[${width}px] p-0`}>
+      <PopoverContent className={`p-0`} style={{
+        width: widthSize[size]
+      }}>
         <Command>
           {canSearch && (
             <>
