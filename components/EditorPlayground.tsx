@@ -15,10 +15,7 @@ import PlaygroundNodes from '@/nodes/PlaygroundNodes'
 import { TableContext } from '@/plugins/TablePlugin'
 import TypingPerfPlugin from '@/plugins/TypingPerfPlugin'
 import PlaygroundEditorTheme from '@/themes/PlaygroundEditorTheme'
-
-console.warn(
-  'If you are profiling the playground app, please ensure you turn off the debug view. You can disable it by pressing on the settings control in the bottom-left of your screen and toggling the debug view setting.'
-)
+import ExportButton from './editor/ExportButton'
 
 function prepopulatedRichText() {
   const root = $getRoot()
@@ -126,6 +123,7 @@ function App(): JSX.Element {
           <SharedAutocompleteContext>
             <div className="editor-shell container mx-auto">
               <Editor />
+              <ExportButton />
             </div>
             {measureTypingPerf ? <TypingPerfPlugin /> : null}
           </SharedAutocompleteContext>

@@ -1,11 +1,3 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import './ExcalidrawModal.css'
 
 import { Excalidraw } from '@excalidraw/excalidraw'
@@ -146,7 +138,7 @@ export default function ExcalidrawModal({
   const save = () => {
     if (elements.filter((el) => !el.isDeleted).length > 0) {
       const appState = excaliDrawSceneRef?.current?.getAppState()
-      if(appState){
+      if (appState) {
         const partialState: Partial<AppState> = {
           exportBackground: appState.exportBackground,
           exportScale: appState.exportScale,
@@ -241,7 +233,7 @@ export default function ExcalidrawModal({
             ref={excaliDrawSceneRef}
             initialData={{
               appState: initialAppState || { isLoading: false },
-              elements: initialElements as any,
+              elements: initialElements,
               files: initialFiles,
             }}
           />
